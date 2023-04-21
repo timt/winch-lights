@@ -1,5 +1,5 @@
-#ifndef COMMS
-#define COMMS_H
+#ifndef WINCH_LIGHTS_COMMS_H
+#define WINCH_LIGHTS_COMMS_H
 
 #include "Arduino.h"
 #include <SPI.h>
