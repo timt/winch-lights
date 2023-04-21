@@ -13,12 +13,13 @@ void Buttons::setup() {
 }
 
 String Buttons::checkButtonPress() {
-    if (digitalRead(TAKE_UP_SLACK_BUTTON) == LOW) {
-        return TAKE_UP_SLACK;
+    //Stop button always takes priority
+    if (digitalRead(STOP_BUTTON) == LOW) {
+        return STOP;
     } else if (digitalRead(ALL_OUT_BUTTON) == LOW) {
         return ALL_OUT;
-    } else if (digitalRead(STOP_BUTTON) == LOW) {
-        return STOP;
+    } else if (digitalRead(TAKE_UP_SLACK_BUTTON) == LOW) {
+        return TAKE_UP_SLACK;
     }
     return NO_COMMAND;
 }
