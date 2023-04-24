@@ -10,6 +10,7 @@ void Buttons::setup() {
     pinMode(TAKE_UP_SLACK_BUTTON, INPUT_PULLUP);
     pinMode(ALL_OUT_BUTTON, INPUT_PULLUP);
     pinMode(STOP_BUTTON, INPUT_PULLUP);
+    Serial.println("Buttons setup complete");
 }
 
 String Buttons::checkButtonPress() {

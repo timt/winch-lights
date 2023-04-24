@@ -1,9 +1,9 @@
 #include "Comms.h"
 #include "Commands.h"
 
-const ReceiveResult NO_RESULT = ReceiveResult("none", NO_COMMAND);
+const ReceiveResult NO_RESULT = ReceiveResult(NO_TX_ID, NO_COMMAND);
 
-ReceiveResult::ReceiveResult(String txId, String command) {
+ReceiveResult::ReceiveResult(int txId, String command) {
     _txId = txId;
     _command = command;
 }
@@ -20,6 +20,8 @@ void Comms::setup() {
         Serial.println("LoRa init failed. Check your connections.");
         while (true) {}
     }
+    Serial.println("Comms setup complete. Local address: " + _localAddress + ", destination address: " + _destinationAddress +
+                   ", gliding club: " + _glidingClub);
 };
 
 String Comms::payload(String command, int txId) {
@@ -83,7 +85,7 @@ ReceiveResult Comms::receiveMessage() {
 
     _lastRxTime = millis();
 
-    return ReceiveResult(txId, command);
+    return ReceiveResult(txId.toInt(), command);
 }
 
 

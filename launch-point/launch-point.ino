@@ -5,23 +5,28 @@
 
 Comms comms("launch-point", "winch", "ESGC");
 Buttons buttons;
+int txId = 0;
 
 
 void setup() {
-   // put your setup code here, to run once:
    Serial.begin(9600);
    comms.setup();
    buttons.setup();
-   Serial.println();
 
-   Serial.print("Roll number of the student is: " + NO_COMMAND);
+   Serial.println();
+   Serial.print("Launch point started. Local address");
 }
 
 void loop() {
     String command = buttons.checkButtonPress();
-    //If button press, send message
+    if (command != NO_COMMAND) {
+        comms.sendMessage(command, txId++);
+    }
     delay(100);
-    //Check for response
-    //Set LED state
+    ReceiveResult result = comms.receiveMessage();
+    if(result._txId != NO_TX_ID) {
+        Serial.println("Received command: " + result._command + ", txId: " + result._txId);
+        //Set LED state
+    }
 }
 

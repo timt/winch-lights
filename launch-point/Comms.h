@@ -5,13 +5,15 @@
 #include <SPI.h>
 #include <LoRa.h>
 
+static const int NO_TX_ID = -1;
+
 class ReceiveResult {
-private:
-    String _txId;
+public:
+    int _txId;
     String _command;
 
 public:
-    ReceiveResult(String txId, String command);
+    ReceiveResult(int txId, String command);
 
 };
 
