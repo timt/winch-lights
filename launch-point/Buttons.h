@@ -14,6 +14,8 @@ public:
     String checkButtonPress();
 
     void setup();
+private:
+    bool isPressed(int button);
 };
 
 

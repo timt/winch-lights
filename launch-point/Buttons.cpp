@@ -15,12 +15,18 @@ void Buttons::setup() {
 
 String Buttons::checkButtonPress() {
     //Stop button always takes priority
-    if (digitalRead(STOP_BUTTON) == LOW) {
+    if (isPressed(STOP_BUTTON)) {
         return STOP;
-    } else if (digitalRead(ALL_OUT_BUTTON) == LOW) {
+    } else if(isPressed(ALL_OUT_BUTTON) && isPressed(TAKE_UP_SLACK_BUTTON)){
+        return CANCEL_STOP;
+    } else if (isPressed(ALL_OUT_BUTTON)) {
         return ALL_OUT;
-    } else if (digitalRead(TAKE_UP_SLACK_BUTTON) == LOW) {
+    } else if (isPressed(TAKE_UP_SLACK_BUTTON)) {
         return TAKE_UP_SLACK;
     }
     return NO_COMMAND;
+}
+
+bool Buttons::isPressed(int button) {
+    return digitalRead(button) == LOW;
 }

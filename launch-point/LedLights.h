@@ -5,12 +5,10 @@
 #ifndef WINCH_LIGHTS_LEDLIGHTS_H
 #define WINCH_LIGHTS_LEDLIGHTS_H
 
-#include <Chrono.h>
 #include <Wire.h>
+#include "Commands.h"
 #include <axp20x.h>
 // https://github.com/lewisxhe/AXP202X_Library
-
-Chrono rxchrono;
 
 AXP20X_Class axp;
 
@@ -20,16 +18,22 @@ const int stopled = 2;
 const int powerled = 14;
 
 class LedLights {
-private:
 public:
-    LedLights();
+    LedLights(int interval);
 
     void setLedStateTransmitting();
+
     void setLedStateReceiving(String command);
 
-    void setup();
-};
+    void checkBatteryAndReset();
 
+    void setup();
+
+private:
+    int _interval;
+    int _rxFlashStartTime;
+
+    void rxFlash(int interval, int maxOnTime);
 };
 
 

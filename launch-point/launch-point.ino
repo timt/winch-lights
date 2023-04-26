@@ -1,12 +1,13 @@
 #include "Comms.h"
 #include "Buttons.h"
-#include "Commands.h"
+#include "LedLights.h"
 
 
+int txId = 0;
+int interval = 100;
 Comms comms("launch-point", "winch", "ESGC");
 Buttons buttons;
-LedLights ledLights;
-int txId = 0;
+LedLights ledLights(interval);
 
 
 void setup() {
@@ -24,11 +25,13 @@ void loop() {
         comms.sendMessage(command, txId++);
         ledLights.setLedStateTransmitting();
     }
-    delay(100);
+    delay(interval);
     ReceiveResult result = comms.receiveMessage();
-    if (result._txId != NO_TX_ID) {
+    if (result.exists()) {
         Serial.println("Received command: " + result._command + ", txId: " + result._txId);
         ledLights.setLedStateReceiving(result._command);
+    } else {
+        ledLights.checkBatteryAndReset();
     }
 }
 

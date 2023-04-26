@@ -8,6 +8,10 @@ ReceiveResult::ReceiveResult(int txId, String command) {
     _command = command;
 }
 
+bool ReceiveResult::exists() {
+    return _txId != NO_TX_ID;
+}
+
 Comms::Comms(String localAddress, String destinationAddress, String glidingClub) {
     _localAddress = localAddress;
     _destinationAddress = destinationAddress;

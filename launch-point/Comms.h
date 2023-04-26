@@ -12,8 +12,9 @@ public:
     int _txId;
     String _command;
 
-public:
     ReceiveResult(int txId, String command);
+
+    bool exists();
 
 };
 
@@ -33,6 +34,7 @@ private:
 
 
     String payload(String command, int txId);
+
     String *messageParts(String message);
 
 

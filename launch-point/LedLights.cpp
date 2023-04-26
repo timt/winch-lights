@@ -1,7 +1,9 @@
 #include "LedLights.h"
 
-LedLights::LedLights() {
 
+LedLights::LedLights(int interval) {
+    _interval = interval;
+    _rxFlashStartTime = millis();
 }
 
 void LedLights::setup() {
@@ -9,7 +11,7 @@ void LedLights::setup() {
     pinMode(stopled, OUTPUT);
     pinMode(powerled, OUTPUT);
     Wire.begin(21, 22);
-    if(axp.begin(Wire, AXP192_SLAVE_ADDRESS) == AXP_FAIL) {
+    if (axp.begin(Wire, AXP192_SLAVE_ADDRESS) == AXP_FAIL) {
         Serial.println(F("failed to initialize communication with AXP192"));
         while (true) {}
     }
@@ -17,23 +19,41 @@ void LedLights::setup() {
 }
 
 void LedLights::setLedStateTransmitting() {
-//    digitalWrite(RED_LED, HIGH);
-//    digitalWrite(GREEN_LED, LOW);
-//    digitalWrite(BLUE_LED, LOW);
+    digitalWrite(powerled, HIGH);
 }
 
 void LedLights::setLedStateReceiving(String command) {
-//    if (command == ALL_OUT) {
-//        digitalWrite(RED_LED, LOW);
-//        digitalWrite(GREEN_LED, LOW);
-//        digitalWrite(BLUE_LED, HIGH);
-//    } else if (command == TAKE_UP_SLACK) {
-//        digitalWrite(RED_LED, LOW);
-//        digitalWrite(GREEN_LED, HIGH);
-//        digitalWrite(BLUE_LED, LOW);
-//    } else if (command == STOP) {
-//        digitalWrite(RED_LED, HIGH);
-//        digitalWrite(GREEN_LED, LOW);
-//        digitalWrite(BLUE_LED, HIGH);
-//    }
+    digitalWrite(powerled, LOW);
+    if (command == STOP) {
+        digitalWrite(stopled, HIGH);
+        digitalWrite(rxled, HIGH);
+    } else if (command == CANCEL_STOP) {
+        digitalWrite(rxled, LOW);
+    } else if (command == ALL_OUT) {
+        rxFlash(1000, 500);
+    } else if (command == TAKE_UP_SLACK) {
+        rxFlash(2000, 500);
+    }
+}
+
+void LedLights::rxFlash(int interval, int maxOnTime) {
+    int now = millis();
+    int elapsed = now - _rxFlashStartTime;
+    if (elapsed > maxOnTime) {
+        digitalWrite(rxled, LOW);
+    } else {
+        digitalWrite(rxled, HIGH);
+    }
+    if (elapsed > interval) {
+        _rxFlashStartTime = millis();
+    }
+}
+
+void LedLights::checkBatteryAndReset() {
+    digitalWrite(stopled, LOW);
+    if (axp.getBattVoltage() < 3400) {
+        rxFlash(500, 100);
+    } else {
+        digitalWrite(rxled, LOW);
+    }
 }
