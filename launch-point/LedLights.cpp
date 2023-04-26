@@ -11,7 +11,7 @@ void LedLights::setup() {
     pinMode(stopled, OUTPUT);
     pinMode(powerled, OUTPUT);
     Wire.begin(21, 22);
-    if (axp.begin(Wire, AXP192_SLAVE_ADDRESS) == AXP_FAIL) {
+    if (_axp.begin(Wire, AXP192_SLAVE_ADDRESS) == AXP_FAIL) {
         Serial.println(F("failed to initialize communication with AXP192"));
         while (true) {}
     }
@@ -51,7 +51,7 @@ void LedLights::rxFlash(int interval, int maxOnTime) {
 
 void LedLights::checkBatteryAndReset() {
     digitalWrite(stopled, LOW);
-    if (axp.getBattVoltage() < 3400) {
+    if (_axp.getBattVoltage() < 3400) {
         rxFlash(500, 100);
     } else {
         digitalWrite(rxled, LOW);

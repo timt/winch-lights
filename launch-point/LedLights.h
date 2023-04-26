@@ -8,9 +8,7 @@
 #include <Wire.h>
 #include "Commands.h"
 #include <axp20x.h>
-// https://github.com/lewisxhe/AXP202X_Library
 
-AXP20X_Class axp;
 
 //led pins
 const int rxled = 13;
@@ -32,6 +30,7 @@ public:
 private:
     int _interval;
     int _rxFlashStartTime;
+    AXP20X_Class _axp;
 
     void rxFlash(int interval, int maxOnTime);
 };
