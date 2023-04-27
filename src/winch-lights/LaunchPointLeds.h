@@ -2,8 +2,8 @@
 // Created by Tim Tennant on 24/04/2023.
 //
 
-#ifndef WINCH_LIGHTS_LEDLIGHTS_H
-#define WINCH_LIGHTS_LEDLIGHTS_H
+#ifndef WINCH_LIGHTS_LAUNCH_POINT_LEDS_H
+#define WINCH_LIGHTS_LAUNCH_POINT_LEDS_H
 
 #include <Wire.h>
 #include "Commands.h"
@@ -11,13 +11,13 @@
 
 
 //led pins
-const int rxled = 13;
-const int stopled = 2;
-const int powerled = 14;
+const int rxLed = 13;
+const int stopLed = 2;
+const int powerLed = 14;
 
-class LedLights {
+class LaunchPointLeds {
 public:
-    LedLights(int interval);
+    LaunchPointLeds(int interval);
 
     void setLedStateTransmitting();
 
@@ -36,4 +36,4 @@ private:
 };
 
 
-#endif //WINCH_LIGHTS_LEDLIGHTS_H
+#endif //WINCH_LIGHTS_LAUNCH_POINT_LEDS_H

@@ -3,6 +3,6 @@
 #include <Arduino.h>
 #include "winch-lights/Comms.h"
 #include "winch-lights/Buttons.h"
-#include "winch-lights/LedLights.h"
+#include "winch-lights/LaunchPointLeds.h"
 
 #endif //WINCH_LIGHTS_WINCH_LIGHTS_H
