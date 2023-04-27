@@ -1,7 +1,4 @@
-#include "Comms.h"
-#include "Buttons.h"
-#include "LedLights.h"
-
+#include <winch-lights.h>
 
 int txId = 0;
 int interval = 100;
