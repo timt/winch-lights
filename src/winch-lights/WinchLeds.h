@@ -20,8 +20,6 @@ private:
     int _stopFlashStartTime = millis();
     int _buzzerStartTime = millis();
 
-    void flash(int pin, int& startTime, int maxOnTime, int resetPeriod);
-
 };
 
 

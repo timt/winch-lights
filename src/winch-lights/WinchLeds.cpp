@@ -1,4 +1,5 @@
 #include "WinchLeds.h"
+#include "Utils.h"
 
 WinchLeds::WinchLeds() {
 
@@ -46,16 +47,3 @@ void WinchLeds::handleCommand(String command) {
     }
 }
 
-//TODO This is same as for LaunchPointLeds::rxFlash so move to common file/class that can be used in both places
-void WinchLeds::flash(int pin, int &startTime, int maxOnTime, int resetPeriod) {
-    int now = millis();
-    int elapsed = now - startTime;
-    if (elapsed > maxOnTime) {
-        digitalWrite(pin, LOW);
-    } else {
-        digitalWrite(pin, HIGH);
-    }
-    if (elapsed > resetPeriod) {
-        startTime = millis();
-    }
-}
