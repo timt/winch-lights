@@ -1,7 +1,6 @@
 #ifndef WINCH_LEDS_WINCHLIGHTS_H
 #define WINCH_LEDS_WINCHLIGHTS_H
 #include "winch-lights.h"
-//#include "Commands.h"
 
 class WinchLeds {
     public:

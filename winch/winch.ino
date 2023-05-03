@@ -1,5 +1,4 @@
 #include <winch-lights.h>
-#include "WinchLeds.h"
 
 Comms comms("winch", "launch-point", "ESGC");
 WinchLeds winchLeds;
