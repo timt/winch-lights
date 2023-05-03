@@ -36,18 +36,10 @@ void LaunchPointLeds::setLedStateReceiving(String command) {
         rxFlash(2000, 500);
     }
 }
+//void flash(int pin, int &startTime, int maxOnTime, int resetPeriod);
 
 void LaunchPointLeds::rxFlash(int interval, int maxOnTime) {
-    int now = millis();
-    int elapsed = now - _rxFlashStartTime;
-    if (elapsed > maxOnTime) {
-        digitalWrite(rxLed, LOW);
-    } else {
-        digitalWrite(rxLed, HIGH);
-    }
-    if (elapsed > interval) {
-        _rxFlashStartTime = millis();
-    }
+    flash(rxLed, _rxFlashStartTime, maxOnTime, interval);
 }
 
 void LaunchPointLeds::checkBatteryAndReset() {
