@@ -3,5 +3,6 @@ CMakeLists.txt
 /launch-point/cmake-build-debug/
 notes.txt
 **/*.o
+
 clion*
 
