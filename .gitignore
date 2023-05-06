@@ -1,6 +1,7 @@
 .idea
 CMakeLists.txt
 /launch-point/cmake-build-debug/
-/test/*
 notes.txt
+**/*.o
+clion*
 

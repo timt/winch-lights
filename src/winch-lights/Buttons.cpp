@@ -1,9 +1,8 @@
 #include "Buttons.h"
-#include "Commands.h"
 
 Buttons::Buttons() {
 
-}
+};
 
 
 void Buttons::setup() {
@@ -11,7 +10,7 @@ void Buttons::setup() {
     pinMode(ALL_OUT_BUTTON, INPUT_PULLUP);
     pinMode(STOP_BUTTON, INPUT_PULLUP);
     Serial.println("Buttons setup complete");
-}
+};
 
 String Buttons::checkButtonPress() {
     //Stop button always takes priority
@@ -25,8 +24,8 @@ String Buttons::checkButtonPress() {
         return TAKE_UP_SLACK;
     }
     return NO_COMMAND;
-}
+};
 
 bool Buttons::isPressed(int button) {
     return digitalRead(button) == LOW;
-}
+};
