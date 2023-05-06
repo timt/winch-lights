@@ -5,23 +5,24 @@
 #ifndef WINCH_LIGHTS_LAUNCH_POINT_LEDS_H
 #define WINCH_LIGHTS_LAUNCH_POINT_LEDS_H
 
+#include <Arduino.h>
 #include <Wire.h>
 #include "Commands.h"
 #include <axp20x.h>
 #include "Utils.h"
 
 //led pins
-const int rxLed = 13;
-const int stopLed = 2;
-const int powerLed = 14;
+const int RX_LED = 13;
+const int STOP_LED = 2;
+const int POWER_LED = 14;
 
 class LaunchPointLeds {
 public:
     LaunchPointLeds(int interval);
 
-    void setLedStateTransmitting();
+    void setStateTransmitting();
 
-    void setLedStateReceiving(String command);
+    void setStateReceiving(String command);
 
     void checkBatteryAndReset();
 

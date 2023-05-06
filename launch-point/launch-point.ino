@@ -20,13 +20,13 @@ void loop() {
     String command = buttons.checkButtonPress();
     if (command != NO_COMMAND) {
         comms.sendMessage(command, txId++);
-        ledLights.setLedStateTransmitting();
+        ledLights.setStateTransmitting();
     }
     delay(interval);
     ReceiveResult result = comms.receiveMessage();
     if (result.exists()) {
         Serial.println("Received command: " + result._command + ", txId: " + result._txId);
-        ledLights.setLedStateReceiving(result._command);
+        ledLights.setStateReceiving(result._command);
     } else {
         ledLights.checkBatteryAndReset();
     }
