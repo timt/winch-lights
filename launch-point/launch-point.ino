@@ -4,7 +4,7 @@ int txId = 0;
 int interval = 100;
 Comms comms("launch-point", "winch", "ESGC");
 Buttons buttons;
-LaunchPointLeds launchPointLeds(interval);
+LaunchPointLeds launchPointLeds;
 
 
 void setup() {
