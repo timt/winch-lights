@@ -39,7 +39,6 @@ test(OnAllOutCommandSetStateReceivingTurnsRXLed) {
         assertEqual(HIGH, digitalWriteValue(RX_LED));
         assertEqual(LOW, digitalWriteValue(POWER_LED));
         assertEqual(LOW, digitalWriteValue(STOP_LED));
-        //????? How to test flash???
 }
 
 test(OnTakeUpSlackCommandSetStateReceivingTurnsOnRXLed) {

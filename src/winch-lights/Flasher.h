@@ -11,7 +11,7 @@ private:
 public:
     Flasher(int pin, int maxOnTime);
 
-    void flash(int resetPeriod);
+    void flash(int resetAfterMillis);
 
     void stop();
 
