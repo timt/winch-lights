@@ -9,16 +9,16 @@
 #include <Wire.h>
 #include "Commands.h"
 #include <axp20x.h>
-#include "Utils.h"
+#include "Flasher.h"
 
 //led pins
-const int RX_LED = 13;
-const int STOP_LED = 2;
-const int POWER_LED = 14;
+static const int RX_LED = 13;
+static const int STOP_LED = 2;
+static const int POWER_LED = 14;
 
 class LaunchPointLeds {
 public:
-    LaunchPointLeds(int interval);
+    LaunchPointLeds();
 
     void setStateTransmitting();
 
@@ -29,11 +29,10 @@ public:
     void setup();
 
 private:
-    int _interval;
-    int _rxFlashStartTime;
+    Flasher _rxFlasher;
     AXP20X_Class _axp;
 
-    void rxFlash(int interval, int maxOnTime);
+    void rxFlash(int interval);
 };
 
 

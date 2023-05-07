@@ -1,49 +1,58 @@
 #include "WinchLeds.h"
-#include "Utils.h"
+#include "Flasher.h"
 
-WinchLeds::WinchLeds() {
+WinchLeds::WinchLeds(): _allOutFlasher(ALL_OUT_LED, 500), _upSlackFlasher(TAKE_UP_SLACK_LED, 500),
+                        _buzzerFlasher(BUZZER, 500) {
 
 }
 
 void WinchLeds::setup() {
-    pinMode(allOutLed, OUTPUT);
-    pinMode(upSlackLed, OUTPUT);
-    pinMode(stopLed, OUTPUT);
-    pinMode(buzzer, OUTPUT);
-    digitalWrite(allOutLed, HIGH);
-    digitalWrite(upSlackLed, HIGH);
-    digitalWrite(stopLed, HIGH);
+    pinMode(ALL_OUT_LED, OUTPUT);
+    pinMode(TAKE_UP_SLACK_LED, OUTPUT);
+    pinMode(WINCH_STOP_LED, OUTPUT);
+    pinMode(BUZZER, OUTPUT);
+    digitalWrite(ALL_OUT_LED, HIGH);
+    digitalWrite(TAKE_UP_SLACK_LED, HIGH);
+    digitalWrite(WINCH_STOP_LED, HIGH);
     delay(500);
-    digitalWrite(allOutLed, LOW);
+    digitalWrite(ALL_OUT_LED, LOW);
     delay(250);
-    digitalWrite(upSlackLed, LOW);
+    digitalWrite(TAKE_UP_SLACK_LED, LOW);
     delay(250);
-    digitalWrite(stopLed, LOW);
+    digitalWrite(WINCH_STOP_LED, LOW);
     delay(250);
-    digitalWrite(buzzer, HIGH);
+    digitalWrite(BUZZER, HIGH);
     delay(250);
-    digitalWrite(buzzer, LOW);
+    digitalWrite(BUZZER, LOW);
 }
 
 void WinchLeds::handleCommand(String command) {
     if (command == ALL_OUT) {
-        flash(allOutLed, _allOutFlashStartTime, 500, 1000);
-        flash(buzzer, _buzzerStartTime, 500, 1000);
+        _allOutFlasher.flash(1000);
+        _buzzerFlasher.flash(1000);
+        _upSlackFlasher.stop();
+        digitalWrite(WINCH_STOP_LED, LOW);
     } else if (command == TAKE_UP_SLACK) {
-        flash(upSlackLed, _upSlackFlashStartTime, 500, 2000);
-        flash(buzzer, _buzzerStartTime, 500, 2000);
+        _upSlackFlasher.flash(2000);
+        _buzzerFlasher.flash(2000);
+        _allOutFlasher.stop();
+        digitalWrite(WINCH_STOP_LED, LOW);
     } else if (command == STOP) {
-        digitalWrite(stopLed, HIGH);
-        flash(buzzer, _buzzerStartTime, 500, 500);
+        digitalWrite(WINCH_STOP_LED, HIGH);
+        _buzzerFlasher.flash(500);
+        _allOutFlasher.stop();
+        _upSlackFlasher.stop();
     } else {
-        digitalWrite(allOutLed, LOW);
-        _allOutFlashStartTime = millis();
-        digitalWrite(upSlackLed, LOW);
-        _upSlackFlashStartTime = millis();
-        digitalWrite(stopLed, LOW);
-        _stopFlashStartTime = millis();
-        digitalWrite(buzzer, LOW);
-        _buzzerStartTime = millis();
+        digitalWrite(WINCH_STOP_LED, LOW);
+        _allOutFlasher.stop();
+        _upSlackFlasher.stop();
+        _buzzerFlasher.stop();
     }
+}
+
+String WinchLeds::toString() {
+    return "_allOutFlasher: " + _allOutFlasher.toString() + "\n" +
+           "_upSlackFlasher: " + _upSlackFlasher.toString() + "\n" +
+           "_buzzerFlasher: " + _buzzerFlasher.toString() + "\n";
 }
 

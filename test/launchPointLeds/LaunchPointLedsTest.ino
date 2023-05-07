@@ -4,7 +4,7 @@
 #include <AceCommon.h>
 #include "./src/LaunchPointLeds.h"
 
-LaunchPointLeds launchPointLeds(100);
+LaunchPointLeds launchPointLeds;
 
 void setup() {
 #if !defined(EPOXY_DUINO)
@@ -45,6 +45,13 @@ test(OnAllOutCommandSetStateReceivingTurnsRXLed) {
 test(OnTakeUpSlackCommandSetStateReceivingTurnsOnRXLed) {
         launchPointLeds.setStateReceiving(TAKE_UP_SLACK);
         assertEqual(HIGH, digitalWriteValue(RX_LED));
+        assertEqual(LOW, digitalWriteValue(POWER_LED));
+        assertEqual(LOW, digitalWriteValue(STOP_LED));
+}
+
+test(OnNoCommandSetStateReceivingTurnsOffAllLed) {
+        launchPointLeds.setStateReceiving(NO_COMMAND);
+        assertEqual(LOW, digitalWriteValue(RX_LED));
         assertEqual(LOW, digitalWriteValue(POWER_LED));
         assertEqual(LOW, digitalWriteValue(STOP_LED));
 }
