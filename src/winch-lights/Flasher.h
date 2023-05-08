@@ -1,5 +1,6 @@
 #ifndef WINCH_LIGHTS_FLASHER_H
 #define WINCH_LIGHTS_FLASHER_H
+
 #include "Arduino.h"
 
 
@@ -8,6 +9,8 @@ private:
     int _pin;
     int _maxOnTime;
     int _startTime;
+    boolean _isOn = false;
+
 public:
     Flasher(int pin, int maxOnTime);
 
@@ -16,6 +19,8 @@ public:
     void stop();
 
     String toString();
+
+    int checkFlasher();
 };
 
 #endif //WINCH_LIGHTS_FLASHER_H

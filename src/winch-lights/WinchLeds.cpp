@@ -29,7 +29,7 @@ void WinchLeds::setup() {
 void WinchLeds::handleCommand(String command) {
     if (command == ALL_OUT && !_isStopped) {
         _allOutFlasher.flash(1000);
-        _smallBuzzerFlasher.flash(1000);
+        _smallBuzzerFlasher.flash(500);
         _upSlackFlasher.stop();
         digitalWrite(WINCH_STOP_LED, LOW);
     } else if (command == TAKE_UP_SLACK && !_isStopped) {
@@ -63,4 +63,10 @@ void WinchLeds::reset() {
     _smallBuzzerFlasher.stop();
     digitalWrite(WINCH_STOP_LED, LOW);
     _isStopped = false;
+}
+
+void WinchLeds::checkAllLeds() {
+    _allOutFlasher.checkFlasher();
+    _upSlackFlasher.checkFlasher();
+    _smallBuzzerFlasher.checkFlasher();
 }

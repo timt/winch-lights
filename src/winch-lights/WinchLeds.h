@@ -21,6 +21,8 @@ class WinchLeds {
 
     void reset();
 
+    void checkAllLeds();
+
 private:
     Flasher _allOutFlasher;
     Flasher _upSlackFlasher;

@@ -39,7 +39,7 @@ void LaunchPointLeds::setStateReceiving(String command) {
         digitalWrite(RX_LED, LOW);
         digitalWrite(STOP_LED, LOW);
     } else if (command == ALL_OUT && !_isStopped) {
-        rxFlash(1000);
+        rxFlash(500);
     } else if (command == TAKE_UP_SLACK && !_isStopped) {
         rxFlash(2000);
     } else if(!_isStopped){
