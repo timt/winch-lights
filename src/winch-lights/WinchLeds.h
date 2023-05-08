@@ -19,10 +19,13 @@ class WinchLeds {
 
     String toString();
 
+    void reset();
+
 private:
     Flasher _allOutFlasher;
     Flasher _upSlackFlasher;
     Flasher _smallBuzzerFlasher;
+    boolean _isStopped=false;
 };
 
 

@@ -27,26 +27,27 @@ void WinchLeds::setup() {
 }
 
 void WinchLeds::handleCommand(String command) {
-    if (command == ALL_OUT) {
+    if (command == ALL_OUT && !_isStopped) {
         _allOutFlasher.flash(1000);
         _smallBuzzerFlasher.flash(1000);
         _upSlackFlasher.stop();
         digitalWrite(WINCH_STOP_LED, LOW);
-    } else if (command == TAKE_UP_SLACK) {
+    } else if (command == TAKE_UP_SLACK && !_isStopped) {
         _upSlackFlasher.flash(2000);
         _smallBuzzerFlasher.flash(2000);
         _allOutFlasher.stop();
         digitalWrite(WINCH_STOP_LED, LOW);
     } else if (command == STOP) {
+        _isStopped = true;
         digitalWrite(WINCH_STOP_LED, HIGH);
         _smallBuzzerFlasher.flash(500);
         _allOutFlasher.stop();
         _upSlackFlasher.stop();
-    } else {
-        digitalWrite(WINCH_STOP_LED, LOW);
-        _allOutFlasher.stop();
-        _upSlackFlasher.stop();
-        _smallBuzzerFlasher.stop();
+    } else if (command == CANCEL_STOP){
+        _isStopped = false;
+        reset();
+    } else if(!_isStopped){
+        reset();
     }
 }
 
@@ -56,3 +57,10 @@ String WinchLeds::toString() {
            "_smallBuzzerFlasher: " + _smallBuzzerFlasher.toString() + "\n";
 }
 
+void WinchLeds::reset() {
+    _allOutFlasher.stop();
+    _upSlackFlasher.stop();
+    _smallBuzzerFlasher.stop();
+    digitalWrite(WINCH_STOP_LED, LOW);
+    _isStopped = false;
+}
