@@ -14,7 +14,7 @@
 //led pins
 static const int RX_LED = 13;
 static const int STOP_LED = 2;
-static const int POWER_LED = 14;
+static const int TX_LED = 14;
 
 class LaunchPointLeds {
 public:

@@ -8,7 +8,7 @@ LaunchPointLeds::LaunchPointLeds() : _rxFlasher(RX_LED, 500) {
 void LaunchPointLeds::setup() {
     pinMode(RX_LED, OUTPUT);
     pinMode(STOP_LED, OUTPUT);
-    pinMode(POWER_LED, OUTPUT);
+    pinMode(TX_LED, OUTPUT);
 #if !defined(EPOXY_DUINO)
     Wire.begin(21, 22);
 #endif
@@ -20,12 +20,12 @@ void LaunchPointLeds::setup() {
 }
 
 void LaunchPointLeds::setStateTransmitting() {
-    digitalWrite(POWER_LED, HIGH);
+    digitalWrite(TX_LED, HIGH);
 }
 
 void LaunchPointLeds::setStateReceiving(String command) {
     Serial.println("Setting LED state receiving for command: " + command);
-    digitalWrite(POWER_LED, LOW);
+    digitalWrite(TX_LED, LOW);
     if (command == STOP) {
         digitalWrite(STOP_LED, HIGH);
         digitalWrite(RX_LED, HIGH);
@@ -39,7 +39,7 @@ void LaunchPointLeds::setStateReceiving(String command) {
     } else {
         digitalWrite(RX_LED, LOW);
         digitalWrite(STOP_LED, LOW);
-        digitalWrite(POWER_LED, LOW);
+        digitalWrite(TX_LED, LOW);
     }
 }
 //void flash(int pin, int &startTime, int maxOnTime, int resetPeriod);

@@ -18,6 +18,7 @@ void setup() {
 
 void loop() {
     String command = buttons.checkButtonPress();
+    Serial.println("Command: " + command);
     if (command != NO_COMMAND) {
         comms.sendMessage(command, txId++);
         launchPointLeds.setStateTransmitting();
