@@ -24,8 +24,9 @@ void Comms::setup() {
         Serial.println("LoRa init failed. Check your connections.");
         while (true) {}
     }
-    Serial.println("Comms setup complete. Local address: " + _localAddress + ", destination address: " + _destinationAddress +
-                   ", gliding club: " + _glidingClub);
+    Serial.println(
+            "Comms setup complete. Local address: " + _localAddress + ", destination address: " + _destinationAddress +
+            ", gliding club: " + _glidingClub);
 };
 
 String Comms::payload(String command, int txId) {
@@ -49,8 +50,9 @@ String *Comms::messageParts(String message) {
 
 void Comms::sendMessage(String command, int txId) {
     String message = payload(command, txId);
-    byte buffer[message.length()];
-    message.getBytes(buffer, message.length());
+    byte buffer[message.length() + 1];
+    message.getBytes(buffer, message.length() + 1);
+    Serial.println("Sending message: " + message);
     LoRa.beginPacket();
     LoRa.write(buffer, message.length());
     LoRa.endPacket();
@@ -78,12 +80,14 @@ ReceiveResult Comms::receiveMessage() {
     String recipient = parts[3];
     String command = parts[4];
 
-    if(glidingClub != _glidingClub) {
-        Serial.println("Error: Gliding club ["+glidingClub +"] does not match local gliding club[" + _glidingClub +"]");
+    if (glidingClub != _glidingClub) {
+        Serial.println(
+                "Error: Gliding club [" + glidingClub + "] does not match local gliding club[" + _glidingClub + "]");
         return NO_RESULT;
     }
     if (recipient != _localAddress) {
-        Serial.println("Error: Recipient address ["+recipient +"] does not match local address[" + _localAddress +"]");
+        Serial.println(
+                "Error: Recipient address [" + recipient + "] does not match local address[" + _localAddress + "]");
         return NO_RESULT;
     }
 
