@@ -1,7 +1,9 @@
 #include <winch-lights.h>
 
 int txId = 0;
-int interval = 100;
+int interval = 1000;
+long lastSendTime = 0;
+
 Comms comms("launch-point", "winch", "ESGC");
 Buttons buttons;
 LaunchPointLeds launchPointLeds;
@@ -19,11 +21,11 @@ void setup() {
 void loop() {
     String command = buttons.checkButtonPress();
     Serial.println("Command: " + command);
-    if (command != NO_COMMAND) {
+    if ((millis() - lastSendTime > interval) && (command != NO_COMMAND)) {
         comms.sendMessage(command, txId++);
         launchPointLeds.setStateTransmitting();
+        lastSendTime = millis();
     }
-    delay(interval);
     ReceiveResult result = comms.receiveMessage();
     if (result.exists()) {
         Serial.println("Received command: " + result._command + ", txId: " + result._txId);
