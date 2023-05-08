@@ -41,7 +41,7 @@ String* Comms::messageParts(String message) {
     String* parts = new String[5];
     while (message.indexOf(MESSAGE_DELIMITER) != -1) {
         parts[index] = message.substring(0, message.indexOf(MESSAGE_DELIMITER));
-        message = message.substring(message.indexOf(MESSAGE_DELIMITER) + 1);
+        message = message.substring(message.indexOf(MESSAGE_DELIMITER) + 2);
         index++;
     }
     parts[index] = message;
@@ -60,13 +60,6 @@ ReceiveResult Comms::receiveMessage() {
     int packetSize = LoRa.parsePacket();
     if (packetSize == 0) return NO_RESULT;
 
-//    byte buffer[packetSize];
-//
-//    for (int i = 0; i < packetSize; i++) {
-//        buffer[i] = LoRa.read();
-//    }
-//
-//    String message = String((char *) buffer);
     String message = "";
     while (LoRa.available()) {
         message += (char) LoRa.read();
