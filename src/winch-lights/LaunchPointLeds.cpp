@@ -19,8 +19,12 @@ void LaunchPointLeds::setup() {
     Serial.println("LED lights setup complete");
 }
 
-void LaunchPointLeds::setStateTransmitting() {
-    digitalWrite(TX_LED, HIGH);
+void LaunchPointLeds::setStateTransmitting(boolean isTransmitting) {
+    if(isTransmitting) {
+        digitalWrite(TX_LED, HIGH);
+    } else {
+        digitalWrite(TX_LED, LOW);
+    }
 }
 
 void LaunchPointLeds::setStateReceiving(String command) {
