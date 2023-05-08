@@ -3,6 +3,7 @@
 Comms comms("winch", "launch-point", "ESGC");
 WinchLeds winchLeds;
 int interval = 100;
+long lastSendTime = 0;
 
 void setup() {
     Serial.begin(9600);
@@ -18,5 +19,4 @@ void loop() {
         winchLeds.handleCommand(result._command);
         comms.sendMessage(result._command, result._txId);
     }
-    delay(interval);
 }
