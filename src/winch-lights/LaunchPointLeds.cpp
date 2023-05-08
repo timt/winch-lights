@@ -20,7 +20,7 @@ void LaunchPointLeds::setup() {
 }
 
 void LaunchPointLeds::setStateTransmitting(boolean isTransmitting) {
-    if(isTransmitting) {
+    if (isTransmitting) {
         digitalWrite(TX_LED, HIGH);
     } else {
         digitalWrite(TX_LED, LOW);
@@ -31,18 +31,21 @@ void LaunchPointLeds::setStateReceiving(String command) {
     Serial.println("Setting LED state receiving for command: " + command);
     digitalWrite(TX_LED, LOW);
     if (command == STOP) {
+        _isStopped = true;
         digitalWrite(STOP_LED, HIGH);
         digitalWrite(RX_LED, HIGH);
     } else if (command == CANCEL_STOP) {
+        _isStopped = false;
         digitalWrite(RX_LED, LOW);
         digitalWrite(STOP_LED, LOW);
-    } else if (command == ALL_OUT) {
+    } else if (command == ALL_OUT && !_isStopped) {
         rxFlash(1000);
-    } else if (command == TAKE_UP_SLACK) {
+    } else if (command == TAKE_UP_SLACK && !_isStopped) {
         rxFlash(2000);
+    } else if(!_isStopped){
+        reset();
     } else {
         digitalWrite(RX_LED, LOW);
-        digitalWrite(STOP_LED, LOW);
         digitalWrite(TX_LED, LOW);
     }
 }
@@ -60,4 +63,11 @@ void LaunchPointLeds::checkBatteryAndReset() {
     } else {
         digitalWrite(RX_LED, LOW);
     }
+}
+
+void LaunchPointLeds::reset() {
+    digitalWrite(STOP_LED, LOW);
+    digitalWrite(TX_LED, LOW);
+    _rxFlasher.stop();
+    _isStopped = false;
 }

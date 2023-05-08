@@ -28,9 +28,12 @@ public:
 
     void setup();
 
+    void reset();
+
 private:
     Flasher _rxFlasher;
     AXP20X_Class _axp;
+    boolean _isStopped = false;
 
     void rxFlash(int interval);
 };
