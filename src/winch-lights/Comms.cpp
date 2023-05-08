@@ -36,9 +36,9 @@ String Comms::payload(String command, int txId) {
     return message;
 };
 
-String *Comms::messageParts(String message) {
+String* Comms::messageParts(String message) {
     int index = 0;
-    String parts[5];
+    String* parts = new String[5];
     while (message.indexOf(MESSAGE_DELIMITER) != -1) {
         parts[index] = message.substring(0, message.indexOf(MESSAGE_DELIMITER));
         message = message.substring(message.indexOf(MESSAGE_DELIMITER) + 1);
