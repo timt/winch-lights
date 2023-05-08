@@ -6,8 +6,8 @@
 
 static const int ALL_OUT_LED = 25;
 static const int TAKE_UP_SLACK_LED = 14;
-static const int WINCH_STOP_LED = 13; //13
-static const int BUZZER = 2; //2
+static const int WINCH_STOP_LED = 13;
+static const int SMALL_BUZZER = 2;
 
 class WinchLeds {
     public:
@@ -22,7 +22,7 @@ class WinchLeds {
 private:
     Flasher _allOutFlasher;
     Flasher _upSlackFlasher;
-    Flasher _buzzerFlasher;
+    Flasher _smallBuzzerFlasher;
 };
 
 
