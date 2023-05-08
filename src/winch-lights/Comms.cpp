@@ -57,9 +57,10 @@ void Comms::sendMessage(String command, int txId) {
 };
 
 ReceiveResult Comms::receiveMessage() {
+    Serial.println("Waiting for message...");
     int packetSize = LoRa.parsePacket();
     if (packetSize == 0) return NO_RESULT;
-
+    Serial.println("Received packet of size " + String(packetSize));
     String message = "";
     while (LoRa.available()) {
         message += (char) LoRa.read();
