@@ -3,6 +3,7 @@
 int txId = 0;
 int interval = 500;
 long lastSendTime = millis();
+ReceiveResult latestReceiveResult = ReceiveResult(NO_TX_ID, NO_COMMAND);
 
 Comms comms("l", "w", "E");
 Buttons buttons;
@@ -18,6 +19,11 @@ void setup() {
     Serial.print("Launch point started.");
 }
 
+boolean waitTimeHasElapsed() {
+    return ((latestReceiveResult._txId + 1) == txId) ||
+           ((millis() - lastSendTime) > interval);
+};
+
 void loop() {
     ReceiveResult result = comms.receiveMessage();
     if (result.exists()) {
@@ -25,16 +31,18 @@ void loop() {
         launchPointLeds.setStateReceiving(result._command);
     } else {
         String command = buttons.checkButtonPress();
-        Serial.println("Command: " + command);
-        if (((millis() - lastSendTime) > interval) && (command != NO_COMMAND)) {
+        if (command == NO_COMMAND) {
+            launchPointLeds.checkBatteryAndReset();
+        }
+        if (waitTimeHasElapsed() && (command != NO_COMMAND)) {
             launchPointLeds.setStateTransmitting(true);
+            Serial.println("Command: " + command);
             int start = millis();
             comms.sendMessage(command, txId++);
             Serial.println("Send time: " + String(millis() - start));
             lastSendTime = millis();
             launchPointLeds.setStateTransmitting(false);
         }
-         launchPointLeds.checkBatteryAndReset();
     }
 }
 

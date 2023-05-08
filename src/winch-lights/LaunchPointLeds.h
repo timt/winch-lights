@@ -20,7 +20,7 @@ class LaunchPointLeds {
 public:
     LaunchPointLeds();
 
-    void setStateTransmitting();
+    void setStateTransmitting(boolean isTransmitting);
 
     void setStateReceiving(String command);
 

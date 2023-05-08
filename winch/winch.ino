@@ -1,6 +1,6 @@
 #include <winch-lights.h>
 
-Comms comms("winch", "launch-point", "ESGC");
+Comms comms("w", "l", "E");
 WinchLeds winchLeds;
 int interval = 100;
 long lastSendTime = 0;
@@ -13,7 +13,6 @@ void setup() {
 
 void loop() {
     ReceiveResult result = comms.receiveMessage();
-    Serial.println("Command: " + result._command);
     if (result.exists()) {
         comms.sendMessage(result._command, result._txId);
         Serial.println("Received command: " + result._command + ", txId: " + result._txId);

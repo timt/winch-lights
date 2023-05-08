@@ -54,8 +54,7 @@ void LaunchPointLeds::rxFlash(int interval) {
 }
 
 void LaunchPointLeds::checkBatteryAndReset() {
-    digitalWrite(STOP_LED, LOW);
-    Serial.println("Battery voltage: " + String(_axp.getBattVoltage()));
+//    Serial.println("Battery voltage: " + String(_axp.getBattVoltage()));
     if (_axp.getBattVoltage() < 3400) {
         rxFlash(500);
     } else {
