@@ -30,7 +30,7 @@ private:
     static const int RADIO_CS_PIN = 18;
     static const int RADIO_DI0_PIN = 26;
     static const int RADIO_RST_PIN = 23;
-    const String MESSAGE_DELIMITER = "##";
+    const String MESSAGE_DELIMITER = "#";
 
 
     String payload(String command, int txId);

@@ -29,16 +29,17 @@ void Comms::setup() {
             ", gliding club: " + _glidingClub);
 };
 
+// 151##ESGC##launch-point##winch##TAKE_UP_SLACK
 String Comms::payload(String command, int txId) {
     String message =
-            String(txId) + MESSAGE_DELIMITER + _glidingClub + MESSAGE_DELIMITER + _localAddress + MESSAGE_DELIMITER +
+            _glidingClub + MESSAGE_DELIMITER + _localAddress + MESSAGE_DELIMITER +
             _destinationAddress + MESSAGE_DELIMITER + command;
     return message;
 };
 
 String* Comms::messageParts(String message) {
     int index = 0;
-    String* parts = new String[5];
+    String* parts = new String[4];
     while (message.indexOf(MESSAGE_DELIMITER) != -1) {
         parts[index] = message.substring(0, message.indexOf(MESSAGE_DELIMITER));
         message = message.substring(message.indexOf(MESSAGE_DELIMITER) + 2);
@@ -60,7 +61,6 @@ ReceiveResult Comms::receiveMessage() {
     Serial.println("Waiting for message...");
     int packetSize = LoRa.parsePacket();
     if (packetSize == 0) return NO_RESULT;
-    Serial.println("Received packet of size " + String(packetSize));
     String message = "";
     while (LoRa.available()) {
         message += (char) LoRa.read();
