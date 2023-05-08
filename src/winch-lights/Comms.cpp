@@ -50,7 +50,7 @@ String *Comms::messageParts(String message) {
 
 void Comms::sendMessage(String command, int txId) {
     String message = payload(command, txId);
-    byte buffer[message.length() + 1];
+    byte buffer[message.length()];
     message.getBytes(buffer, message.length() + 1);
     Serial.println("Sending message: " + message);
     LoRa.beginPacket();
