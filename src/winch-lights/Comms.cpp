@@ -50,11 +50,9 @@ String *Comms::messageParts(String message) {
 
 void Comms::sendMessage(String command, int txId) {
     String message = payload(command, txId);
-    byte buffer[message.length()];
-    message.getBytes(buffer, message.length() + 1);
     Serial.println("Sending message: " + message);
     LoRa.beginPacket();
-    LoRa.write(buffer, message.length());
+    LoRa.print(message);
     LoRa.endPacket();
 };
 
@@ -62,13 +60,17 @@ ReceiveResult Comms::receiveMessage() {
     int packetSize = LoRa.parsePacket();
     if (packetSize == 0) return NO_RESULT;
 
-    byte buffer[packetSize];
-
-    for (int i = 0; i < packetSize; i++) {
-        buffer[i] = LoRa.read();
+//    byte buffer[packetSize];
+//
+//    for (int i = 0; i < packetSize; i++) {
+//        buffer[i] = LoRa.read();
+//    }
+//
+//    String message = String((char *) buffer);
+    String message = "";
+    while (LoRa.available()) {
+        message += (char) LoRa.read();
     }
-
-    String message = String((char *) buffer);
     Serial.println("Received message: " + message);
     byte rssi = LoRa.packetRssi();
     Serial.println("RSSI: " + String(rssi));
