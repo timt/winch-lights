@@ -13,13 +13,6 @@ void setup() {
     while (!SERIAL_PORT_MONITOR); // needed for Leonardo/Micro
 }
 
-//test(HandleAllOutCommandTurnsOnAllOutLed) {
-//        winchLeds.handleCommand(ALL_OUT);
-//        assertEqual(HIGH, digitalWriteValue(ALL_OUT_LED));
-//        assertEqual(HIGH, digitalWriteValue(BUZZER));
-//        assertEqual(LOW, digitalWriteValue(WINCH_STOP_LED));
-//}
-
 test(FlasherTurnsOffAfterMaxOnTimeExceeded) {
     const int ledPin = 13;
     const int maxOnTime = 250;
