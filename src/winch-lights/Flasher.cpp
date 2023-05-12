@@ -26,6 +26,7 @@ void Flasher::flash(int resetAfterMillis) {
 
 void Flasher::stop() {
     digitalWrite(_pin, LOW);
+    _isOn = false;
     _startTime = millis();
 }
 

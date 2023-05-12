@@ -4,10 +4,8 @@
 #include <AceCommon.h>
 #include "./src/Buttons.h"
 
-Buttons buttons;
-
 void resetButtons() {
-    buttons.setup();
+    Buttons.begin();
     //make sure all the buttons are in not pressed state (epoxy_duino does not seem to honour the pinMode([button], INPUT_PULLUP))
     digitalReadValue(TAKE_UP_SLACK_BUTTON, HIGH);
     digitalReadValue(ALL_OUT_BUTTON, HIGH);
@@ -25,32 +23,32 @@ void setup() {
 
 test(NoButtonPressReturnsNoCommand) {
         resetButtons();
-        assertEqual(NO_COMMAND, buttons.checkButtonPress());
+        assertEqual(NO_COMMAND, Buttons.checkButtonPress());
 }
 
 test(PressingStopButtonReturnsStopCommand) {
         resetButtons();
         digitalReadValue(STOP_BUTTON, LOW);
-        assertEqual(STOP, buttons.checkButtonPress());
+        assertEqual(STOP, Buttons.checkButtonPress());
 }
 
 test(PressingAllOutButtonReturnsAllOutCommand) {
         resetButtons();
         digitalReadValue(ALL_OUT_BUTTON, LOW);
-        assertEqual(ALL_OUT, buttons.checkButtonPress());
+        assertEqual(ALL_OUT, Buttons.checkButtonPress());
 }
 
 test(PressingTakeUpSlackButtonReturnsTakeUpSlackCommand) {
         resetButtons();
         digitalReadValue(TAKE_UP_SLACK_BUTTON, LOW);
-        assertEqual(TAKE_UP_SLACK, buttons.checkButtonPress());
+        assertEqual(TAKE_UP_SLACK, Buttons.checkButtonPress());
 }
 
 test(PressingAllOutAndTakeUpSlackButtonReturnsCancelStopCommand) {
         resetButtons();
         digitalReadValue(ALL_OUT_BUTTON, LOW);
         digitalReadValue(TAKE_UP_SLACK_BUTTON, LOW);
-        assertEqual(CANCEL_STOP, buttons.checkButtonPress());
+        assertEqual(CANCEL_STOP, Buttons.checkButtonPress());
 }
 
 

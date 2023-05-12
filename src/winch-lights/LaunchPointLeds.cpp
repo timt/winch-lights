@@ -11,11 +11,11 @@ void LaunchPointLedsClass::begin() {
     pinMode(TX_LED, OUTPUT);
 #if !defined(EPOXY_DUINO)
     Wire.begin(21, 22);
-#endif
     if (_axp.begin(Wire, AXP192_SLAVE_ADDRESS) == AXP_FAIL) {
         Serial.println(F("failed to initialize communication with AXP192"));
         while (true) {}
     }
+#endif
     Serial.println("LED lights setup complete");
 }
 
