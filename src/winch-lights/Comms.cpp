@@ -12,17 +12,17 @@ bool ReceiveResult::exists() {
     return _txId != NO_TX_ID;
 }
 
-Comms::Comms(String localAddress, String destinationAddress, String turnPoint) {
-    _localAddress = localAddress;
-    _destinationAddress = destinationAddress;
-    _turnPoint = turnPoint;
-};
-
-Comms::Comms() {
+CommsClass::CommsClass() {
     //Do nothing here
 }
 
-void Comms::setup() {
+void CommsClass::setIdentifiers(String localAddress, String destinationAddress, String turnPoint) {
+    _localAddress = localAddress;
+    _destinationAddress = destinationAddress;
+    _turnPoint = turnPoint.substring(0, 3);
+}
+
+void CommsClass::begin() {
     LoRa.setPins(RADIO_CS_PIN, RADIO_RST_PIN, RADIO_DI0_PIN);
     if (!LoRa.begin(866E6)) {
         Serial.println("LoRa init failed. Check your connections.");
@@ -31,17 +31,16 @@ void Comms::setup() {
     Serial.println(
             "Comms setup complete. Local address: " + _localAddress + ", destination address: " + _destinationAddress +
             ", gliding club: " + _turnPoint);
-};
+}
 
-// 151##ESGC##launch-point##winch##TAKE_UP_SLACK
-String Comms::payload(String command, int txId) {
+String CommsClass::payload(String command, int txId) {
     String message =
             String(txId) + MESSAGE_DELIMITER + _turnPoint + MESSAGE_DELIMITER + _localAddress + MESSAGE_DELIMITER +
             _destinationAddress + MESSAGE_DELIMITER + command;
     return message;
-};
+}
 
-String* Comms::messageParts(String message) {
+String* CommsClass::messageParts(String message) {
     int index = 0;
     String* parts = new String[5];
     while (message.indexOf(MESSAGE_DELIMITER) != -1) {
@@ -51,17 +50,17 @@ String* Comms::messageParts(String message) {
     }
     parts[index] = message;
     return parts;
-};
+}
 
-void Comms::sendMessage(String command, int txId) {
+void CommsClass::sendMessage(String command, int txId) {
     String message = payload(command, txId);
     Serial.println("Sending message: " + message);
     LoRa.beginPacket();
     LoRa.print(message);
     LoRa.endPacket();
-};
+}
 
-ReceiveResult Comms::receiveMessage() {
+ReceiveResult CommsClass::receiveMessage() {
     int packetSize = LoRa.parsePacket();
     if (packetSize == 0) return NO_RESULT;
     String message = "";
@@ -95,4 +94,4 @@ ReceiveResult Comms::receiveMessage() {
     return ReceiveResult(txId.toInt(), command);
 }
 
-Comms CMS;
+CommsClass Comms;

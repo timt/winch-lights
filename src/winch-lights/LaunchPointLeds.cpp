@@ -1,11 +1,15 @@
 #include "LaunchPointLeds.h"
 
 
-LaunchPointLeds::LaunchPointLeds() : _rxFlasher(RX_LED, 500) {
+LaunchPointLedsClass::LaunchPointLedsClass() : _rxFlasher(RX_LED, 500) {
 
 }
 
-void LaunchPointLeds::setup() {
+void LaunchPointLedsClass::setClub(String turnPoint) {
+    //TODO set turnpoint in Comms
+}
+
+void LaunchPointLedsClass::begin() {
     pinMode(RX_LED, OUTPUT);
     pinMode(STOP_LED, OUTPUT);
     pinMode(TX_LED, OUTPUT);
@@ -19,7 +23,7 @@ void LaunchPointLeds::setup() {
     Serial.println("LED lights setup complete");
 }
 
-void LaunchPointLeds::setStateTransmitting(boolean isTransmitting) {
+void LaunchPointLedsClass::setStateTransmitting(boolean isTransmitting) {
     if (isTransmitting) {
         digitalWrite(TX_LED, HIGH);
     } else {
@@ -27,7 +31,7 @@ void LaunchPointLeds::setStateTransmitting(boolean isTransmitting) {
     }
 }
 
-void LaunchPointLeds::setStateReceiving(String command) {
+void LaunchPointLedsClass::setStateReceiving(String command) {
     Serial.println("Setting LED state receiving for command: " + command);
     digitalWrite(TX_LED, LOW);
     if (command == STOP) {
@@ -51,13 +55,13 @@ void LaunchPointLeds::setStateReceiving(String command) {
 }
 //void flash(int pin, int &startTime, int maxOnTime, int resetPeriod);
 
-void LaunchPointLeds::rxFlash(int interval) {
+void LaunchPointLedsClass::rxFlash(int interval) {
     digitalWrite(STOP_LED, LOW);
     _rxFlasher.flash(interval);
 }
 
 //TODO rename to checkBattery
-void LaunchPointLeds::checkBatteryAndReset() {
+void LaunchPointLedsClass::checkBatteryAndReset() {
 //    Serial.println("Battery voltage: " + String(_axp.getBattVoltage()));
     if (_axp.getBattVoltage() < 3400) {
         rxFlash(500);
@@ -66,9 +70,11 @@ void LaunchPointLeds::checkBatteryAndReset() {
     }
 }
 
-void LaunchPointLeds::reset() {
+void LaunchPointLedsClass::reset() {
     digitalWrite(STOP_LED, LOW);
     digitalWrite(TX_LED, LOW);
     _rxFlasher.stop();
     _isStopped = false;
 }
+
+LaunchPointLedsClass LaunchPointLeds;

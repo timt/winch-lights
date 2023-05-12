@@ -18,7 +18,7 @@ public:
 
 };
 
-class Comms {
+class CommsClass {
 private:
     String _localAddress;
     String _destinationAddress;
@@ -39,16 +39,16 @@ private:
 
 
 public:
-    Comms(String localAddress, String destinationAddress, String turnPoint);
+    CommsClass();
 
-    Comms();
+    void setIdentifiers(String localAddress, String destinationAddress, String turnPoint);
 
-    void setup();
+    void begin();
 
     void sendMessage(String command, int txId);
 
     ReceiveResult receiveMessage();
 };
 
-extern Comms CMS;
+extern CommsClass Comms;
 #endif

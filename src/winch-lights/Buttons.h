@@ -8,17 +8,18 @@ static const int TAKE_UP_SLACK_BUTTON = 4;
 static const int ALL_OUT_BUTTON = 15;
 static const int STOP_BUTTON = 25;
 
-class Buttons {
+class ButtonsClass {
 private:
     bool isPressed(int button);
 
 public:
-    Buttons();
+    ButtonsClass();
 
     String checkButtonPress();
 
-    void setup();
+    void begin();
 };
 
+extern ButtonsClass Buttons;
 
 #endif //WINCH_LIGHTS_BUTTONS_H

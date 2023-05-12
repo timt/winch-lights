@@ -16,9 +16,11 @@ static const int RX_LED = 13;
 static const int STOP_LED = 2;
 static const int TX_LED = 14;
 
-class LaunchPointLeds {
+class LaunchPointLedsClass {
 public:
-    LaunchPointLeds();
+    LaunchPointLedsClass();
+
+    void setClub(String turnPoint);
 
     void setStateTransmitting(boolean isTransmitting);
 
@@ -26,7 +28,7 @@ public:
 
     void checkBatteryAndReset();
 
-    void setup();
+    void begin();
 
     void reset();
 
@@ -38,5 +40,6 @@ private:
     void rxFlash(int interval);
 };
 
+extern LaunchPointLedsClass LaunchPointLeds;
 
 #endif //WINCH_LIGHTS_LAUNCH_POINT_LEDS_H

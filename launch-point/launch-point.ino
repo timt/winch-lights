@@ -5,16 +5,13 @@ int interval = 500;
 long lastSendTime = millis();
 ReceiveResult latestReceiveResult = ReceiveResult(NO_TX_ID, NO_COMMAND);
 
-Comms comms("l", "w", "ESGC");
-Buttons buttons;
-LaunchPointLeds launchPointLeds;
-
 //Consider having a launch-point library class with a setup and loop only include that here
 void setup() {
     Serial.begin(9600);
-    comms.setup();
-    buttons.setup();
-    launchPointLeds.setup();
+    Comms.setIdentifiers("L", "W", "RIN");
+    Comms.begin();
+    Buttons.begin();
+    LaunchPointLeds.begin();
     Serial.println();
     Serial.print("Launch point started.");
 }
@@ -26,23 +23,23 @@ boolean waitTimeHasElapsed() {
 
 void loop() {
     //TODO simplify by breaking up into well named shorter methods
-    ReceiveResult result = comms.receiveMessage();
+    ReceiveResult result = Comms.receiveMessage();
     if (result.exists()) {
         Serial.println("Received command: " + result._command + ", txId: " + result._txId);
-        launchPointLeds.setStateReceiving(result._command);
+        LaunchPointLeds.setStateReceiving(result._command);
     } else {
-        String command = buttons.checkButtonPress();
+        String command = Buttons.checkButtonPress();
         if (command == NO_COMMAND) {
-            launchPointLeds.checkBatteryAndReset();
+            LaunchPointLeds.checkBatteryAndReset();
         }
         if (waitTimeHasElapsed() && (command != NO_COMMAND)) {
-            launchPointLeds.setStateTransmitting(true);
+            LaunchPointLeds.setStateTransmitting(true);
             Serial.println("Command: " + command);
             int start = millis();
-            comms.sendMessage(command, txId++);
+            Comms.sendMessage(command, txId++);
             Serial.println("Send time: " + String(millis() - start));
             lastSendTime = millis();
-            launchPointLeds.setStateTransmitting(false);
+            LaunchPointLeds.setStateTransmitting(false);
         }
     }
 }
