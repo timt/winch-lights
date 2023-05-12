@@ -5,10 +5,6 @@ LaunchPointLedsClass::LaunchPointLedsClass() : _rxFlasher(RX_LED, 500) {
 
 }
 
-void LaunchPointLedsClass::setClub(String turnPoint) {
-    //TODO set turnpoint in Comms
-}
-
 void LaunchPointLedsClass::begin() {
     pinMode(RX_LED, OUTPUT);
     pinMode(STOP_LED, OUTPUT);

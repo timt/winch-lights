@@ -1,7 +1,3 @@
-//
-// Created by Tim Tennant on 24/04/2023.
-//
-
 #ifndef WINCH_LIGHTS_LAUNCH_POINT_LEDS_H
 #define WINCH_LIGHTS_LAUNCH_POINT_LEDS_H
 
@@ -19,8 +15,6 @@ static const int TX_LED = 14;
 class LaunchPointLedsClass {
 public:
     LaunchPointLedsClass();
-
-    void setClub(String turnPoint);
 
     void setStateTransmitting(boolean isTransmitting);
 

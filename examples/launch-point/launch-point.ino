@@ -1,12 +1,12 @@
 #
 #include <winch-lights.h>
 
+const String CLUB_TURN_POINT = "RIN";
+
 void setup() {
     Serial.begin(9600);
-    Serial.println("Starting launch-point test");
-    LaunchPoint.setClub("RIN");
+    LaunchPoint.setClub(CLUB_TURN_POINT);
     LaunchPoint.begin();
-    Serial.print("Launch point started.");
 }
 
 void loop() {

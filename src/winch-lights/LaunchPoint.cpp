@@ -1,32 +1,34 @@
-#include <winch-lights.h>
+#include "LaunchPoint.h"
 
-int txId = 0;
-int interval = 500;
-long lastSendTime = millis();
-ReceiveResult latestReceiveResult = ReceiveResult(NO_TX_ID, NO_COMMAND);
+LaunchPointClass::LaunchPointClass() {
+}
 
-//Consider having a launch-point library class with a setup and loop only include that here
-void setup() {
-    Serial.begin(9600);
-    Comms.setIdentifiers("L", "W", "RIN");
+void LaunchPointClass::setClub(String turnPoint) {
+    _clubTurnPoint = turnPoint;
+}
+
+void LaunchPointClass::begin() {
+    Serial.println("Starting launch-point test");
+    Comms.setIdentifiers("L", "W", _clubTurnPoint);
     Comms.begin();
     Buttons.begin();
     LaunchPointLeds.begin();
-    Serial.println();
-    Serial.print("Launch point started.");
+    Serial.println("Launch point started.");
 }
 
-boolean waitTimeHasElapsed() {
-    return ((latestReceiveResult._txId + 1) == txId) ||
-           ((millis() - lastSendTime) > interval);
+
+boolean LaunchPointClass::waitTimeHasElapsed() {
+    return ((_latestReceiveResult._txId + 1) == _nextTxId) ||
+           ((millis() - _lastSendTime) > _interval);
 };
 
-void loop() {
+void LaunchPointClass::loop() {
     //TODO simplify by breaking up into well named shorter methods
     ReceiveResult result = Comms.receiveMessage();
     if (result.exists()) {
         Serial.println("Received command: " + result._command + ", txId: " + result._txId);
         LaunchPointLeds.setStateReceiving(result._command);
+        _latestReceiveResult = result;
     } else {
         String command = Buttons.checkButtonPress();
         if (command == NO_COMMAND) {
@@ -36,11 +38,12 @@ void loop() {
             LaunchPointLeds.setStateTransmitting(true);
             Serial.println("Command: " + command);
             int start = millis();
-            Comms.sendMessage(command, txId++);
+            Comms.sendMessage(command, _nextTxId++);
             Serial.println("Send time: " + String(millis() - start));
-            lastSendTime = millis();
+            _lastSendTime = millis();
             LaunchPointLeds.setStateTransmitting(false);
         }
     }
 }
 
+LaunchPointClass LaunchPoint;
