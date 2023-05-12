@@ -4,8 +4,6 @@
 #include <AceCommon.h>
 #include "./src/WinchLeds.h"
 
-WinchLeds winchLeds;
-
 void setup() {
 #if !defined(EPOXY_DUINO)
     delay(1000); // wait to prevent garbage on SERIAL_PORT_MONITOR
@@ -13,16 +11,16 @@ void setup() {
 
     SERIAL_PORT_MONITOR.begin(115200);
     while (!SERIAL_PORT_MONITOR); // needed for Leonardo/Micro
-    Serial.println("winchLeds: " + winchLeds.toString());
+    Serial.println("winchLeds: " + WinchLeds.toString());
 }
 
 void beforeEach() {
-    winchLeds.reset();
+    WinchLeds.reset();
 }
 
 test(HandleAllOutCommandTurnsOnAllOutLed) {
         beforeEach();
-        winchLeds.handleCommand(ALL_OUT);
+        WinchLeds.handleCommand(ALL_OUT);
         assertEqual(HIGH, digitalWriteValue(ALL_OUT_LED));
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
         assertEqual(LOW, digitalWriteValue(WINCH_STOP_LED));
@@ -30,7 +28,7 @@ test(HandleAllOutCommandTurnsOnAllOutLed) {
 
 test(HandleTakeUpSlackTurnsOnTakeUpSlackLed) {
         beforeEach();
-        winchLeds.handleCommand(TAKE_UP_SLACK);
+        WinchLeds.handleCommand(TAKE_UP_SLACK);
         assertEqual(HIGH, digitalWriteValue(TAKE_UP_SLACK_LED));
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
         assertEqual(LOW, digitalWriteValue(WINCH_STOP_LED));
@@ -39,7 +37,7 @@ test(HandleTakeUpSlackTurnsOnTakeUpSlackLed) {
 
 test(HandleStopCommandTurnsOnStopLed) {
         beforeEach();
-        winchLeds.handleCommand(STOP);
+        WinchLeds.handleCommand(STOP);
         assertEqual(HIGH, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
         assertEqual(LOW, digitalWriteValue(TAKE_UP_SLACK_LED));
@@ -48,7 +46,7 @@ test(HandleStopCommandTurnsOnStopLed) {
 
 test(HandleCancelStopCommandTurnsOffSMALL_BUZZER){
         beforeEach();
-        winchLeds.handleCommand(CANCEL_STOP);
+        WinchLeds.handleCommand(CANCEL_STOP);
         assertEqual(LOW, digitalWriteValue(SMALL_BUZZER));
         assertEqual(LOW, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(LOW, digitalWriteValue(TAKE_UP_SLACK_LED));
@@ -57,7 +55,7 @@ test(HandleCancelStopCommandTurnsOffSMALL_BUZZER){
 
 test(HandleNoCommandTurnsOffAll) {
         beforeEach();
-        winchLeds.handleCommand(NO_COMMAND);
+        WinchLeds.handleCommand(NO_COMMAND);
         assertEqual(LOW, digitalWriteValue(SMALL_BUZZER));
         assertEqual(LOW, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(LOW, digitalWriteValue(TAKE_UP_SLACK_LED));
@@ -66,10 +64,10 @@ test(HandleNoCommandTurnsOffAll) {
 
 test(WhenInStopModeHandleCancelStopCommandTurnsOffSmallBuzzerAndStopLight) {
         beforeEach();
-        winchLeds.handleCommand(STOP);
+        WinchLeds.handleCommand(STOP);
         assertEqual(HIGH, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
-        winchLeds.handleCommand(CANCEL_STOP);
+        WinchLeds.handleCommand(CANCEL_STOP);
         assertEqual(LOW, digitalWriteValue(SMALL_BUZZER));
         assertEqual(LOW, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(LOW, digitalWriteValue(TAKE_UP_SLACK_LED));
@@ -78,10 +76,10 @@ test(WhenInStopModeHandleCancelStopCommandTurnsOffSmallBuzzerAndStopLight) {
 
 test(WhenInStopModeHandleAllOutCommandLeavesStopBuzzerAndLightOn) {
         beforeEach();
-        winchLeds.handleCommand(STOP);
+        WinchLeds.handleCommand(STOP);
         assertEqual(HIGH, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
-        winchLeds.handleCommand(ALL_OUT);
+        WinchLeds.handleCommand(ALL_OUT);
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
         assertEqual(HIGH, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(LOW, digitalWriteValue(TAKE_UP_SLACK_LED));
@@ -90,10 +88,10 @@ test(WhenInStopModeHandleAllOutCommandLeavesStopBuzzerAndLightOn) {
 
 test(WhenInStopModeHandleTakeUpSlackCommandLeavesStopBuzzerAndLightOn) {
         beforeEach();
-        winchLeds.handleCommand(STOP);
+        WinchLeds.handleCommand(STOP);
         assertEqual(HIGH, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
-        winchLeds.handleCommand(TAKE_UP_SLACK);
+        WinchLeds.handleCommand(TAKE_UP_SLACK);
         assertEqual(HIGH, digitalWriteValue(SMALL_BUZZER));
         assertEqual(HIGH, digitalWriteValue(WINCH_STOP_LED));
         assertEqual(LOW, digitalWriteValue(TAKE_UP_SLACK_LED));
