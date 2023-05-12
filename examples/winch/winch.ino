@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <winch-lights.h>
 
+const String CLUB_TURN_POINT = "RIN";
+
 void setup() {
     Serial.begin(9600);
-    Serial.println("Starting winch-lights test");
-    Winch.setClub("RIN");
+    Winch.setClub(CLUB_TURN_POINT);
     Winch.begin();
-    Serial.print("Winch-lights started.");
 }
 
 void loop() {

@@ -1,12 +1,12 @@
 #include "WinchLeds.h"
 #include "Flasher.h"
 
-WinchLeds::WinchLeds(): _allOutFlasher(ALL_OUT_LED, 500), _upSlackFlasher(TAKE_UP_SLACK_LED, 500),
+WinchLedsClass::WinchLedsClass(): _allOutFlasher(ALL_OUT_LED, 500), _upSlackFlasher(TAKE_UP_SLACK_LED, 500),
                         _smallBuzzerFlasher(SMALL_BUZZER, 500) {
 
 }
 
-void WinchLeds::setup() {
+void WinchLedsClass::begin() {
     pinMode(ALL_OUT_LED, OUTPUT);
     pinMode(TAKE_UP_SLACK_LED, OUTPUT);
     pinMode(WINCH_STOP_LED, OUTPUT);
@@ -26,7 +26,7 @@ void WinchLeds::setup() {
     digitalWrite(SMALL_BUZZER, LOW);
 }
 
-void WinchLeds::handleCommand(String command) {
+void WinchLedsClass::handleCommand(String command) {
     if (command == ALL_OUT && !_isStopped) {
         _allOutFlasher.flash(1000);
         _smallBuzzerFlasher.flash(500);
@@ -51,13 +51,13 @@ void WinchLeds::handleCommand(String command) {
     }
 }
 
-String WinchLeds::toString() {
+String WinchLedsClass::toString() {
     return "_allOutFlasher: " + _allOutFlasher.toString() + "\n" +
            "_upSlackFlasher: " + _upSlackFlasher.toString() + "\n" +
            "_smallBuzzerFlasher: " + _smallBuzzerFlasher.toString() + "\n";
 }
 
-void WinchLeds::reset() {
+void WinchLedsClass::reset() {
     _allOutFlasher.stop();
     _upSlackFlasher.stop();
     _smallBuzzerFlasher.stop();
@@ -65,8 +65,10 @@ void WinchLeds::reset() {
     _isStopped = false;
 }
 
-void WinchLeds::checkAllLeds() {
+void WinchLedsClass::checkAllLeds() {
     _allOutFlasher.checkFlasher();
     _upSlackFlasher.checkFlasher();
     _smallBuzzerFlasher.checkFlasher();
 }
+
+WinchLedsClass WinchLeds;

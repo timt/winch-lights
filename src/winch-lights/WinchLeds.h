@@ -9,11 +9,11 @@ static const int TAKE_UP_SLACK_LED = 14;
 static const int WINCH_STOP_LED = 13;
 static const int SMALL_BUZZER = 2;
 
-class WinchLeds {
+class WinchLedsClass {
     public:
-    WinchLeds();
+    WinchLedsClass();
 
-    void setup();
+    void begin();
 
     void handleCommand(String command);
 
@@ -30,5 +30,6 @@ private:
     boolean _isStopped=false;
 };
 
+extern WinchLedsClass WinchLeds;
 
 #endif //WINCH_LEDS_WINCHLIGHTS_H
