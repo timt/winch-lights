@@ -10,6 +10,7 @@ Flasher::Flasher(int pin, int maxOnTime) {
 }
 
 void Flasher::flash(int resetAfterMillis) {
+    //TODO perhaps reverse this logic so check if need to reset the startTime before evaluation of elapsed time
     int elapsed = checkFlasher();
     Serial.println("Flasher for pin: " + String(_pin) + " elapsed: " + String(elapsed) + "ms");
     if (elapsed <= _maxOnTime && !_isOn) {

@@ -22,7 +22,7 @@ class Comms {
 private:
     String _localAddress;
     String _destinationAddress;
-    String _glidingClub;
+    String _turnPoint;
     long _lastSendTime = 0;
     long _lastRxTime = 0;
     int _interval = 100;
@@ -39,7 +39,9 @@ private:
 
 
 public:
-    Comms(String localAddress, String destinationAddress, String glidingClub);
+    Comms(String localAddress, String destinationAddress, String turnPoint);
+
+    Comms();
 
     void setup();
 
@@ -48,5 +50,5 @@ public:
     ReceiveResult receiveMessage();
 };
 
-
+extern Comms CMS;
 #endif

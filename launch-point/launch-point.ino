@@ -5,11 +5,11 @@ int interval = 500;
 long lastSendTime = millis();
 ReceiveResult latestReceiveResult = ReceiveResult(NO_TX_ID, NO_COMMAND);
 
-Comms comms("l", "w", "E");
+Comms comms("l", "w", "ESGC");
 Buttons buttons;
 LaunchPointLeds launchPointLeds;
 
-
+//Consider having a launch-point library class with a setup and loop only include that here
 void setup() {
     Serial.begin(9600);
     comms.setup();
@@ -25,6 +25,7 @@ boolean waitTimeHasElapsed() {
 };
 
 void loop() {
+    //TODO simplify by breaking up into well named shorter methods
     ReceiveResult result = comms.receiveMessage();
     if (result.exists()) {
         Serial.println("Received command: " + result._command + ", txId: " + result._txId);

@@ -56,6 +56,7 @@ void LaunchPointLeds::rxFlash(int interval) {
     _rxFlasher.flash(interval);
 }
 
+//TODO rename to checkBattery
 void LaunchPointLeds::checkBatteryAndReset() {
 //    Serial.println("Battery voltage: " + String(_axp.getBattVoltage()));
     if (_axp.getBattVoltage() < 3400) {

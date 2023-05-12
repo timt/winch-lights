@@ -12,11 +12,15 @@ bool ReceiveResult::exists() {
     return _txId != NO_TX_ID;
 }
 
-Comms::Comms(String localAddress, String destinationAddress, String glidingClub) {
+Comms::Comms(String localAddress, String destinationAddress, String turnPoint) {
     _localAddress = localAddress;
     _destinationAddress = destinationAddress;
-    _glidingClub = glidingClub;
+    _turnPoint = turnPoint;
 };
+
+Comms::Comms() {
+    //Do nothing here
+}
 
 void Comms::setup() {
     LoRa.setPins(RADIO_CS_PIN, RADIO_RST_PIN, RADIO_DI0_PIN);
@@ -26,13 +30,13 @@ void Comms::setup() {
     }
     Serial.println(
             "Comms setup complete. Local address: " + _localAddress + ", destination address: " + _destinationAddress +
-            ", gliding club: " + _glidingClub);
+            ", gliding club: " + _turnPoint);
 };
 
 // 151##ESGC##launch-point##winch##TAKE_UP_SLACK
 String Comms::payload(String command, int txId) {
     String message =
-            String(txId) + MESSAGE_DELIMITER + _glidingClub + MESSAGE_DELIMITER + _localAddress + MESSAGE_DELIMITER +
+            String(txId) + MESSAGE_DELIMITER + _turnPoint + MESSAGE_DELIMITER + _localAddress + MESSAGE_DELIMITER +
             _destinationAddress + MESSAGE_DELIMITER + command;
     return message;
 };
@@ -70,14 +74,14 @@ ReceiveResult Comms::receiveMessage() {
 
     String *parts = messageParts(message);
     String txId = parts[0];
-    String glidingClub = parts[1];
+    String turnPoint = parts[1];
     String sender = parts[2];
     String recipient = parts[3];
     String command = parts[4];
 
-    if (glidingClub != _glidingClub) {
+    if (turnPoint != _turnPoint) {
         Serial.println(
-                "Error: Gliding club [" + glidingClub + "] does not match local gliding club[" + _glidingClub + "]");
+                "Error: Gliding club [" + turnPoint + "] does not match local gliding club[" + _turnPoint + "]");
         return NO_RESULT;
     }
     if (recipient != _localAddress) {
@@ -91,5 +95,4 @@ ReceiveResult Comms::receiveMessage() {
     return ReceiveResult(txId.toInt(), command);
 }
 
-
-
+Comms CMS;
