@@ -32,7 +32,7 @@ void LaunchPointClass::loop() {
     } else {
         String command = Buttons.checkButtonPress();
         if (command == NO_COMMAND) {
-            LaunchPointLeds.checkBatteryAndReset();
+            LaunchPointLeds.checkBattery();
         }
         if (waitTimeHasElapsed() && (command != NO_COMMAND)) {
             LaunchPointLeds.setStateTransmitting(true);

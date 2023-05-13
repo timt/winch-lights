@@ -20,7 +20,7 @@ public:
 
     void setStateReceiving(String command);
 
-    void checkBatteryAndReset();
+    void checkBattery();
 
     void begin();
 
