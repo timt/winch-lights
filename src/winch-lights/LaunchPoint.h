@@ -13,7 +13,10 @@ private:
     long _lastSendTime = millis();
     String _clubTurnPoint;
     ReceiveResult _latestReceiveResult = ReceiveResult(NO_TX_ID, NO_COMMAND);
+    void processReceivedResult(ReceiveResult result);
+    void checkForButtonPress();
     boolean waitTimeHasElapsed();
+    void handleCommand(String command);
 
 public:
     LaunchPointClass();
