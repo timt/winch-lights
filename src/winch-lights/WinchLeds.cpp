@@ -28,13 +28,13 @@ void WinchLedsClass::begin() {
 
 void WinchLedsClass::handleCommand(String command) {
     if (command == ALL_OUT && !_isStopped) {
-        _allOutFlasher.flash(1000);
-        _smallBuzzerFlasher.flash(500);
+        _allOutFlasher.flash(750);
+        _smallBuzzerFlasher.flash(750);
         _upSlackFlasher.stop();
         digitalWrite(WINCH_STOP_LED, LOW);
     } else if (command == TAKE_UP_SLACK && !_isStopped) {
-        _upSlackFlasher.flash(2000);
-        _smallBuzzerFlasher.flash(2000);
+        _upSlackFlasher.flash(1500);
+        _smallBuzzerFlasher.flash(1500);
         _allOutFlasher.stop();
         digitalWrite(WINCH_STOP_LED, LOW);
     } else if (command == STOP) {

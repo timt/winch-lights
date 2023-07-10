@@ -29,7 +29,6 @@ void LaunchPointLedsClass::setStateTransmitting(boolean isTransmitting) {
 
 void LaunchPointLedsClass::setStateReceiving(String command) {
     Serial.println("Setting LED state receiving for command: " + command);
-    digitalWrite(TX_LED, LOW);
     if (command == STOP) {
         _isStopped = true;
         digitalWrite(STOP_LED, HIGH);
@@ -39,17 +38,15 @@ void LaunchPointLedsClass::setStateReceiving(String command) {
         digitalWrite(RX_LED, LOW);
         digitalWrite(STOP_LED, LOW);
     } else if (command == ALL_OUT && !_isStopped) {
-        rxFlash(500);
+        rxFlash(750);
     } else if (command == TAKE_UP_SLACK && !_isStopped) {
-        rxFlash(2000);
+        rxFlash(1500);
     } else if(!_isStopped){
         reset();
     } else {
-        digitalWrite(RX_LED, LOW);
-        digitalWrite(TX_LED, LOW);
+//        digitalWrite(TX_LED, LOW);
     }
 }
-//void flash(int pin, int &startTime, int maxOnTime, int resetPeriod);
 
 void LaunchPointLedsClass::rxFlash(int interval) {
     digitalWrite(STOP_LED, LOW);
@@ -60,7 +57,7 @@ void LaunchPointLedsClass::checkBattery() {
 //    Serial.println("Battery voltage: " + String(_axp.getBattVoltage()));
     if (_axp.getBattVoltage() < 3400) {
         rxFlash(500);
-    } else {
+    } else if (!_isStopped) {
         digitalWrite(RX_LED, LOW);
     }
 }
@@ -70,6 +67,10 @@ void LaunchPointLedsClass::reset() {
     digitalWrite(TX_LED, LOW);
     _rxFlasher.stop();
     _isStopped = false;
+}
+
+void LaunchPointLedsClass::checkAllLeds(String command) {
+    setStateReceiving(command);
 }
 
 LaunchPointLedsClass LaunchPointLeds;

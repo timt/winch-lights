@@ -20,6 +20,8 @@ public:
 
     void setStateReceiving(String command);
 
+    void checkAllLeds(String command);
+
     void checkBattery();
 
     void begin();

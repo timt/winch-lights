@@ -13,6 +13,7 @@ void Flasher::flash(int resetAfterMillis) {
     int elapsed = checkFlasher();
     if (elapsed > resetAfterMillis) {
         _startTime = millis();
+        elapsed = 0;
     }
     Serial.println("Flasher for pin: " + String(_pin) + " elapsed: " + String(elapsed) + "ms");
     if (elapsed <= _maxOnTime && !_isOn) {

@@ -1,5 +1,7 @@
 #include "LaunchPoint.h"
 
+//Stop buzzer needs to remain on.
+
 LaunchPointClass::LaunchPointClass() {
 }
 
@@ -34,8 +36,10 @@ void LaunchPointClass::processReceivedResult(ReceiveResult result) {
 void LaunchPointClass::checkForButtonPress() {
     String command = Buttons.checkButtonPress();
     if (command == NO_COMMAND) {
+        LaunchPointLeds.setStateTransmitting(false);
         LaunchPointLeds.checkBattery();
     } else {
+        LaunchPointLeds.setStateTransmitting(true);
         handleCommand(command);
     }
 
@@ -47,14 +51,13 @@ boolean LaunchPointClass::waitTimeHasElapsed() {
 };
 
 void LaunchPointClass::handleCommand(String command){
+    LaunchPointLeds.checkAllLeds(_latestReceiveResult._command);
     if (waitTimeHasElapsed()) {
-        LaunchPointLeds.setStateTransmitting(true);
         Serial.println("Command: " + command);
         int start = millis();
         Comms.sendMessage(command, _nextTxId++);
         Serial.println("Send time: " + String(millis() - start));
         _lastSendTime = millis();
-        LaunchPointLeds.setStateTransmitting(false);
     }
 }
 
